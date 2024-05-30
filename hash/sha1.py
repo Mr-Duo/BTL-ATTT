@@ -1,5 +1,5 @@
-from hash.sha256 import sha256
-from hash.utils import _lotr, _bytestring
+from .sha256 import sha256
+from .utils import _lotr, _bytestring
 from struct import *
 
 class sha1(sha256):

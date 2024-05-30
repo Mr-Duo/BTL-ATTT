@@ -1,4 +1,4 @@
-from hash.sha256 import sha256
+from .sha256 import sha256
 
 def ROL64(a, n):
     return ((a >> (64-(n%64))) + (a << (n%64))) % (1 << 64)
