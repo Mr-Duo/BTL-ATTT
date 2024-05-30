@@ -8,7 +8,7 @@ def get_params():
     parser.add_argument("--algorithms", type=str, required=True, choices=algorithms)
     parser.add_argument("--input_path", type=str, default= "input")
     parser.add_argument("--output_path", type= str, default= "output")
-    parser.add_argument("--input_file", type= str, default="input.txt")
+    parser.add_argument("--input_file", type= str, default="fox.txt")
     parser.add_argument("--output_file", type= str, default="output.txt")
     parser.add_argument("--text", type=str, default=None)
     
