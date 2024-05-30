@@ -3,7 +3,7 @@ from hash.utils import _lotr, _bytestring
 from struct import *
 
 class sha1(sha256):
-    _h = ( 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0)
+    _h1 = ( 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0)
     hh = 0
 
     def digest(self, message):
@@ -15,7 +15,7 @@ class sha1(sha256):
             self.process(self._buffer[:self._chunk_size])
             self._buffer = self._buffer[self._chunk_size:]
 
-        for i, h in enumerate(self._h):
+        for i, h in enumerate(self._h1):
             self.hh |= _lotr(h, 32 * (4 - i), 160)  
         return format(self.hh, 'x')
 
@@ -27,7 +27,7 @@ class sha1(sha256):
             w[i] = w[i-3] ^ w[i-8] ^ w[i-14] ^ w[i-16]
             w[i] = _lotr(w[i], 1)
 
-        a, b, c, d, e = self._h
+        a, b, c, d, e = self._h1
 
         for i in range(80):
             if i in range(20):
@@ -50,7 +50,7 @@ class sha1(sha256):
             b = a
             a = temp
         
-        self._h = ((x + y) & 0xFFFFFFFF for x, y in zip(self._h, (a,b,c,d,e)))
+        self._h1 = [(x + y) & 0xFFFFFFFF for x, y in zip(self._h1, [a,b,c,d,e])]
 
 if __name__ == "__main__":
     t = sha1().digest("")

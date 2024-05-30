@@ -1,3 +1,5 @@
+from hash.sha256 import sha256
+
 def ROL64(a, n):
     return ((a >> (64-(n%64))) + (a << (n%64))) % (1 << 64)
 
@@ -93,12 +95,15 @@ def SHA3_512(inputBytes):
 
 from utils import _bytestring
 
-class sha3_256:
+class sha3_256(sha256):
     def digest(self, message):
         if type(message) is not str:
             raise TypeError(f"Expected input message type string, not {type(message).__name__}")
+        message = self.preprocess(message)
         return _bytestring(Keccak(1088, 512, message, 0x06, 256//8))
         
 if __name__ == "__main__":
-    t = sha3_256().digest("")
+    text = 'a' * 1000
+    print(type(text))
+    t = sha3_256().digest(text)
     print(t)

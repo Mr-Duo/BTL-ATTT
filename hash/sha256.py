@@ -1,4 +1,4 @@
-from hash.utils import _bytestring, _stringbyte, _rotr
+from .utils import _bytestring, _stringbyte, _rotr
 from struct import *
 
 class sha256:
@@ -55,6 +55,8 @@ class sha256:
             s0 = _rotr(w[i-15], 7) ^ _rotr(w[i-15], 18) ^ (w[i-15] >> 3)
             s1 = _rotr(w[i-2], 17) ^ _rotr(w[i-2], 19) ^ (w[i-2] >> 10)
             w[i] = (w[i-16] + s0 + w[i-7] + s1) & 0xFFFFFFFF
+
+        # print(self._h)
         a,b,c,d,e,f,g,h = self._h
         
         for i in range(64):
