@@ -16,7 +16,7 @@ class sha1(sha256):
             self._buffer = self._buffer[self._chunk_size:]
 
         for i, h in enumerate(self._h1):
-            self.hh |= _lotr(h, 32 * (4 - i), 160)  
+            self.hh |= (h << (32 * (4 - i)))  
         return format(self.hh, 'x')
 
     def process(self, chunk):

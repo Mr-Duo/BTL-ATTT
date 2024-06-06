@@ -1,4 +1,5 @@
 from .sha256 import sha256
+from .utils import _bytestring
 
 def ROL64(a, n):
     return ((a >> (64-(n%64))) + (a << (n%64))) % (1 << 64)
@@ -73,7 +74,7 @@ def Keccak(rate, capacity, inputBytes, delimitedSuffix, outputByteLen):
         outputByteLen = outputByteLen - blockSize
         if (outputByteLen > 0):
             state = KeccakF1600(state)
-    return outputBytes
+    return outputBytes       
 
 def SHAKE128(inputBytes, outputByteLen):
     return Keccak(1344, 256, inputBytes, 0x1F, outputByteLen)
@@ -81,29 +82,36 @@ def SHAKE128(inputBytes, outputByteLen):
 def SHAKE256(inputBytes, outputByteLen):
     return Keccak(1088, 512, inputBytes, 0x1F, outputByteLen)
 
-def SHA3_224(inputBytes):
-    return Keccak(1152, 448, inputBytes, 0x06, 224//8)
-
-def SHA3_256(inputBytes):
-    return Keccak(1088, 512, inputBytes, 0x06, 256//8)
-
-def SHA3_384(inputBytes):
-    return Keccak(832, 768, inputBytes, 0x06, 384//8)
-
-def SHA3_512(inputBytes):
-    return Keccak(576, 1024, inputBytes, 0x06, 512//8)
-
-from utils import _bytestring
-
 class sha3_256(sha256):
     def digest(self, message):
         if type(message) is not str:
             raise TypeError(f"Expected input message type string, not {type(message).__name__}")
-        message = self.preprocess(message)
+        message = message.encode('utf-8')
         return _bytestring(Keccak(1088, 512, message, 0x06, 256//8))
+
+class sha3_224(sha256):
+    def digest(self, message):
+        if type(message) is not str:
+            raise TypeError(f"Expected input message type string, not {type(message).__name__}")
+        message = message.encode('utf-8')
+        return _bytestring(Keccak(1152, 448, message, 0x06, 224//8))
+
+class sha3_384(sha256):
+    def digest(self, message):
+        if type(message) is not str:
+            raise TypeError(f"Expected input message type string, not {type(message).__name__}")
+        message = message.encode('utf-8')
+        return _bytestring(Keccak(832, 768, message, 0x06, 384//8))
         
+class sha3_512(sha256):
+    def digest(self, message):
+        if type(message) is not str:
+            raise TypeError(f"Expected input message type string, not {type(message).__name__}")
+        message = message.encode('utf-8')
+        return _bytestring(Keccak(576, 1024, message, 0x06, 512//8))
+
 if __name__ == "__main__":
-    text = 'a' * 1000
+    text = 'a'*10000
     print(type(text))
     t = sha3_256().digest(text)
-    print(t)
+    print(t)       
